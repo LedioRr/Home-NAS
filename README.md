@@ -151,14 +151,4 @@ Planned Improvements:
 
 ------------------------------------------------------------------------
 
-# Long-Term Vision
 
-This homelab evolves progressively into:
-
--   Containerized infrastructure
--   Monitored services
--   Secure multi-user environment
--   Cloud-like self-hosted platform
-
-The goal is continuous learning, system design maturity, and
-DevOps-focused infrastructure engineering experience.
