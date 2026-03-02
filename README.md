@@ -22,8 +22,8 @@ The lab simulates real-world DevOps concepts including:
 
 Core design principle:
 
-> No unnecessary public exposure. Minimal attack surface. Controlled
-> access.
+No unnecessary public exposure. Minimal attack surface. Controlled
+access.
 
 Primary Node: - HP EliteBook 820 G3 (openSUSE Leap) - External HDD
 storage - Tailscale private mesh VPN
