@@ -38,16 +38,16 @@ Transform NAS into an energy-efficient, remotely controlled server.
 
 ### Smart Plug Integration
 
--   Remote power control via WiFi smart plug
--   BIOS: "Power On After AC Loss" enabled
--   Server runs only when needed
+-   Remote power control via WiFi smart plug ✔️ 
+-   BIOS: "Power On After AC Loss" enabled  ✖️ not possible on this laptop version
+-   Server runs only when needed ✔️ 
 
 ### Operational Flow
 
-1.  Enable smart plug remotely
-2.  Laptop auto-boots
-3.  Tailscale reconnects
-4.  Services become available
+1.  Enable smart plug remotely ✔️ 
+2.  Laptop auto-boots ✖️
+3.  Tailscale reconnects ✔️ 
+4.  Services become available ✔️ 
 
 This reduces cost and introduces infrastructure lifecycle control.
 
@@ -57,10 +57,10 @@ This reduces cost and introduces infrastructure lifecycle control.
 
 ## Monitoring Scope
 
--   Disk usage percentage
--   Memory usage percentage
--   Daily email reporting via SMTP (msmtp)
--   Cron-based automation
+-   Disk usage percentage ✔️ 
+-   Memory usage percentage ✔️ 
+-   Daily email reporting via SMTP (msmtp) ✔️ 
+-   Cron-based automation ✔️ 
 
 ### Architecture
 
