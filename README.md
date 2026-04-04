@@ -63,12 +63,7 @@ This reduces cost and introduces infrastructure lifecycle control.
 -   Cron-based automation ✔️ 
 
 ### Architecture
-
-Cron Job ↓ Monitoring Script ↓ Metric Collection ↓ SMTP Client ↓ Email
-Notification
-
-Future Enhancements: - Threshold-based alerts (\>80% disk) - SMART disk
-health checks - Log rotation - Historical logging
+Set up my home NAS on an old laptop with Ubuntu Server and Tailscale for secure remote access. Configured msmtp and systemd scripts to send automatic boot and disk usage alert emails. Disabled sleep, suspend, and screen locking to keep the system always online while the display turns off. Automated daily disk checks via systemd, and verified all scripts and notifications work reliably. The NAS is now fully accessible remotely, with persistent background services and low-power idle mode.
 
 ------------------------------------------------------------------------
 
