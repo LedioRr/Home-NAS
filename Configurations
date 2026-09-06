@@ -28,7 +28,85 @@ drwxrwxr-x 1 admin users       0 Jul 21  2025 System Volume Information
 -rwxrwxr-x 1 admin users       0 Feb 17 19:01 testfile.txt
 ```
 
-## User Directories and Permissions
-```text
-```
+## DNS and ads blocker setup
+
+#!/bin/bash
+# Alternative to Pi-hole: no Docker, no web UI, just dnsmasq + a blocklist.
+#
+# Usage:
+#   sudo ./ad-blocker-setup.sh install   -> installs dnsmasq and sets up the blocklist + cron job
+#   sudo ./ad-blocker-setup.sh update    -> re-downloads the blocklist and reloads dnsmasq (used by cron)
+
+set -e
+
+BLOCKLIST_URL="https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts"
+DNSMASQ_CONF_DIR="/etc/dnsmasq.d"
+BLOCKLIST_CONF="$DNSMASQ_CONF_DIR/blocklist.conf"
+TMP_HOSTS="/tmp/ad-hosts-raw.txt"
+LOG_FILE="/var/log/dnsmasq-adblock.log"
+
+install() {
+    echo "Installing dnsmasq..."
+    zypper --non-interactive install dnsmasq
+
+    echo "Enabling dnsmasq logging of queries (for basic visibility, similar to Pi-hole's query log)..."
+    mkdir -p "$(dirname "$LOG_FILE")"
+    touch "$LOG_FILE"
+    chmod 644 "$LOG_FILE"
+
+    if ! grep -q "^log-queries" /etc/dnsmasq.conf 2>/dev/null; then
+        echo "log-queries" >> /etc/dnsmasq.conf
+        echo "log-facility=$LOG_FILE" >> /etc/dnsmasq.conf
+    fi
+
+    echo "Fetching initial blocklist..."
+    update
+
+    echo "Enabling and starting dnsmasq..."
+    systemctl enable --now dnsmasq
+
+    echo "Setting up a weekly cron job to auto-update the blocklist..."
+    CRON_CMD="0 4 * * 0 root $(realpath "$0") update"
+    CRON_FILE="/etc/cron.d/ad-blocker-update"
+    echo "$CRON_CMD" > "$CRON_FILE"
+    chmod 644 "$CRON_FILE"
+
+    echo ""
+    echo "Done. dnsmasq is running and filtering ads/trackers."
+    echo "Point your router's DNS setting to this machine's IP to use it network-wide."
+    echo "Logs (domains looked up): $LOG_FILE"
+}
+
+update() {
+    echo "Downloading blocklist from $BLOCKLIST_URL..."
+    curl -fsSL "$BLOCKLIST_URL" -o "$TMP_HOSTS"
+
+    echo "Converting to dnsmasq format..."
+    # Take lines like "0.0.0.0 baddomain.com", strip comments/blank lines,
+    # skip localhost entries, and convert to dnsmasq's address= syntax.
+    grep -E "^0\.0\.0\.0" "$TMP_HOSTS" \
+        | awk '{print $2}' \
+        | grep -v -E "^(0\.0\.0\.0|localhost)$" \
+        | sed 's/^/address=\//; s/$/\/0.0.0.0/' \
+        > "$BLOCKLIST_CONF"
+
+    COUNT=$(wc -l < "$BLOCKLIST_CONF")
+    echo "Wrote $COUNT blocked domains to $BLOCKLIST_CONF"
+
+    rm -f "$TMP_HOSTS"
+
+    if systemctl is-active --quiet dnsmasq; then
+        echo "Reloading dnsmasq..."
+        systemctl restart dnsmasq
+    fi
+}
+
+case "$1" in
+    install) install ;;
+    update) update ;;
+    *)
+        echo "Usage: $0 {install|update}"
+        exit 1
+        ;;
+esac
 
