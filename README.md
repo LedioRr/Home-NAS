@@ -155,12 +155,12 @@ Extend the NAS infrastructure to provide DNS-level ad and tracker filtering for 
 
 ### Filtering Architecture
 
-DNS filtering using dnsmasq ✔️ 
-StevenBlack hosts blocklist ✔️ 
-79,994 ad/tracker domains loaded into the local blocklist ✔️ 
-Weekly automatic blocklist updates via cron ✔️ 
-DNS service runs directly on the homeserver ✔️ 
-Tailscale remains the private remote-access layer ✔️ 
+-   DNS filtering using dnsmasq ✔️ 
+-   StevenBlack hosts blocklist ✔️ 
+-   79,994 ad/tracker domains loaded into the local blocklist ✔️ 
+-   Weekly automatic blocklist updates via cron ✔️ 
+-   DNS service runs directly on the homeserver ✔️ 
+-   Tailscale remains the private remote-access layer ✔️ 
 
 ### Implementation
 
