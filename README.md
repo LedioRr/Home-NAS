@@ -102,9 +102,9 @@ The ISP-provided Nokia router does not allow modification of its DHCP/DNS settin
 
 Instead, selected devices are manually configured to use the homeserver as their DNS server:
 
-    Homeserver DNS: 192.168.1.43
+    Homeserver DNS: 192.xxxxxx
 
-    Public fallback DNS: 1.1.1.1
+    Public fallback DNS: xxxxxxx
 
     Devices not configured manually continue using the router's default DNS.
 
@@ -114,7 +114,7 @@ Additional Considerations
 
     Browser-level DNS-over-HTTPS (DoH) can also bypass local DNS filtering.
 
-    Firewalld must allow TCP/UDP port 53 for DNS queries from LAN devices.
+    Firewalld must allow TCP/UDP port xx for DNS queries from LAN devices.
 
     The homeserver currently uses a DHCP-assigned IP, so configuring a static IP directly on the openSUSE system is the next step to prevent DNS configuration from breaking if the address changes.
 
