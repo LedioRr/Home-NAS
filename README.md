@@ -198,51 +198,174 @@ This phase adds network-level filtering while keeping file storage, SMB access, 
 
 ------------------------------------------------------------------------
 
-# Phase 3 -- Web-Based Access Layer
+# Phase 3 -- Private Web & Media Services
 
-## Planned Technology
+## Objective
 
--   Docker
--   Nextcloud container
--   Reverse proxy (future phase)
+Extend the NAS from a storage server into a private media and web-access platform while keeping all services accessible only through the Tailscale private network.
+
+### Planned Services
+
+* File Browser / web-based file access
+* Movie and TV streaming
+* Photo viewing and management
+* Music streaming
+* Docker-based service deployment
 
 ### Architecture Model
 
-Host OS (openSUSE) ↓ Docker ↓ Nextcloud Container ↓ Reverse Proxy ↓ VPN
-or Controlled Internet Access
+Host OS (openSUSE)
+↓
+Docker
+↓
+Private Web & Media Services
+↓
+Tailscale Private Network
+↓
+Authorized Devices
 
-This transitions from raw file access (SFTP) to application-layer
-access.
+### Access Model
 
-------------------------------------------------------------------------
+* No public internet exposure
+* No router port forwarding
+* Services reachable through Tailscale only
+* Access restricted to authorized Tailscale devices/users
+* Each service remains isolated from the host where practical
+
+This phase transitions the NAS from raw file access into a private personal cloud and media platform.
+
+---
 
 # Phase 4 -- Security Hardening
 
-Before public exposure:
+## Objective
 
--   SSH key-only authentication
--   Disable password SSH login
--   Firewall configuration
--   Fail2ban
--   HTTPS with Let's Encrypt
--   Automatic updates
+Harden the NAS and its services while maintaining the Tailscale-only access model.
 
-Public exposure will only be enabled after hardening is complete.
+### Planned Improvements
 
-------------------------------------------------------------------------
+* SSH key-only authentication
+* Disable password SSH login
+* Firewall configuration
+* Fail2ban where appropriate
+* Automatic security updates
+* Service isolation
+* Docker permission and filesystem review
+* Tailscale access control
+* Review exposed local ports and listening services
+
+Public internet exposure is intentionally excluded from the project scope.
+
+---
 
 # Phase 5 -- Observability & Reliability
 
-Planned Improvements:
+## Objective
 
--   Prometheus experimentation
--   Node Exporter
--   Grafana dashboards
--   Centralized logging
--   Backup automation
--   Disaster recovery plan
+Create centralized monitoring for the NAS and all hosted services.
 
-------------------------------------------------------------------------
+### Planned Improvements
+
+* Uptime Kuma / service health monitoring
+* Prometheus experimentation
+* Node Exporter
+* Grafana dashboards
+* CPU, RAM and storage monitoring
+* Disk health monitoring
+* Service availability monitoring
+* Centralized logging
+* Alerting and notifications
+* Backup automation
+* Disaster recovery plan
+
+### Monitoring Model
+
+Service
+↓
+Health Check / Metrics / Logs
+↓
+Monitoring System
+↓
+Alert
+↓
+Notification
+
+The monitoring layer should make it possible to identify service failures before they become larger infrastructure problems.
+
+---
+
+# Phase 6 -- Local AI Operations Assistant
+
+## Objective
+
+Use a locally hosted AI model to assist with monitoring, diagnostics and troubleshooting without sending NAS data or logs to external AI services.
+
+### Planned Technology
+
+* Local LLM runtime
+* Small quantized language model
+* Local documentation / knowledge base
+* Integration with monitoring and system logs
+
+### AI Responsibilities
+
+* Analyze monitoring alerts
+* Analyze relevant service logs
+* Identify likely causes of simple failures
+* Explain technical errors in understandable language
+* Provide step-by-step troubleshooting instructions
+* Reference the NAS documentation when recommending solutions
+
+### Safety Model
+
+The AI initially operates in read-only mode.
+
+AI
+↓
+Analyze
+↓
+Explain
+↓
+Recommend
+↓
+User approval
+
+Automated system changes are not performed without explicit approval.
+
+---
+
+# Phase 7 -- Controlled Automation & Recovery
+
+## Objective
+
+Automate recovery of simple, predefined problems while maintaining strict control over system changes.
+
+### Planned Improvements
+
+* Automated health checks
+* Predefined recovery procedures
+* Controlled service restarts
+* Post-recovery verification
+* Failure escalation
+* Notification after recovery or failed recovery
+
+### Recovery Model
+
+Service failure
+↓
+Monitoring detects failure
+↓
+AI analyzes condition
+↓
+Predefined recovery action
+↓
+Health check
+↓
+Success → notification
+Failure → notify user
+
+Only explicitly defined and tested recovery actions will be automated.
+
 
 # DevOps Skills Practiced
 
